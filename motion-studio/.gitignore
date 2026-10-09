@@ -1,0 +1,5 @@
+node_modules
+dist
+.env
+# Données locales de l'utilisateur (projets, médias importés, rendus)
+donnees/
