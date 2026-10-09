@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #s6-km {
+          left: 96px;
+          top: 96px;
+          padding: 30px 40px 30px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        #s6-km .ov-display {
+          font-size: 60px;
+          text-shadow: none;
+        }
+        #s6-dist {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 104px;
+          line-height: 1;
+          color: #f3b23e;
+          margin-top: 6px;
+        }
+        #s6-dist small {
+          font-size: 54px;
+          margin-left: 10px;
+        }
+        .s6-stamp {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          padding: 18px 30px 18px 24px;
+          background: #fbf3e4;
+          border: 6px solid #c8283a;
+          border-radius: 14px;
+          color: #c8283a;
+          box-shadow: 0 24px 60px rgba(3, 6, 22, 0.4);
+        }
+        .s6-stamp span {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 70px;
+          text-transform: uppercase;
+          line-height: 1;
+        }
+        .s6-stamp svg {
+          width: 74px;
+          height: 74px;
+        }
+        .s6-stamp svg * {
+          fill: none;
+          stroke: #c8283a;
+          stroke-width: 7;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        #s6-quiet {
+          left: 110px;
+          bottom: 210px;
+        }
+        #s6-discreet {
+          left: 180px;
+          bottom: 84px;
+        }
+        #s6-done {
+          right: 96px;
+          bottom: 90px;
+          display: flex;
+          align-items: center;
+          gap: 26px;
+          padding: 24px 36px 24px 26px;
+        }
+        #s6-tick {
+          width: 82px;
+          height: 82px;
+          border-radius: 50%;
+          background: #1f8a5a;
+          display: grid;
+          place-items: center;
+        }
+        #s6-tick svg {
+          width: 50px;
+          height: 50px;
+        }
+        #s6-tick path {
+          fill: none;
+          stroke: #fbf3e4;
+          stroke-width: 8;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        #s6-done-text {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        #s6-done-title {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 44px;
+          text-transform: uppercase;
+          color: #fbf3e4;
+        }
+        #s6-done-sub {
+          font-size: 24px;
+          color: #f3b23e;
+        }
+      </style>
+      <div id="root" class="ov" data-composition-id="s6-lastmile" data-width="1920" data-height="1080" data-duration="11.6">
+        <div class="ov-plate" id="s6-km">
+          <div class="ov-kicker" id="s6-kicker"><span class="rule"></span><span>Livraison</span></div>
+          <div class="ov-display"><span class="ov-mask"><span class="s6-line">Le dernier</span></span></div>
+          <div class="ov-display"><span class="ov-mask"><span class="s6-line">kilomètre ?</span></span></div>
+          <div id="s6-dist" class="ov-num"><span id="s6-dist-n">1 000</span><small>m</small></div>
+        </div>
+        <div class="s6-stamp" id="s6-quiet">
+          <svg viewBox="0 0 74 74"><path d="M8 28 H22 L38 14 V60 L22 46 H8 Z" /><path d="M50 26 L68 48 M68 26 L50 48" /></svg>
+          <span>Silencieuse.</span>
+        </div>
+        <div class="s6-stamp" id="s6-discreet">
+          <svg viewBox="0 0 74 74"><path d="M6 38 C 18 54, 56 54, 68 38" /><path d="M16 46 L10 56 M30 50 L28 62 M44 50 L46 62 M58 46 L64 56" /></svg>
+          <span>Discrète.</span>
+        </div>
+        <div class="ov-plate" id="s6-done">
+          <div id="s6-tick"><svg viewBox="0 0 50 50"><path d="M8 26 L20 38 L42 12" /></svg></div>
+          <div id="s6-done-text">
+            <span id="s6-done-title">Livré avant le réveil</span>
+            <span class="ov-mono" id="s6-done-sub">Statut : livré · <span id="s6-clock">06:59</span></span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const S = 42.0;
+          const at = (g) => g - S;
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#s6-km", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, at(42.15));
+          tl.fromTo("#s6-kicker .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, at(42.25));
+          tl.fromTo(".s6-line", { yPercent: 115 }, { yPercent: 0, duration: 0.6, ease: "power4.out", stagger: 0.22 }, at(42.25));
+          const d = { v: 1000 };
+          const dn = document.getElementById("s6-dist-n");
+          tl.fromTo(d, { v: 1000 }, { v: 0, duration: 1.9, ease: "power3.inOut", onUpdate: () => (dn.textContent = Math.round(d.v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")) }, at(42.55));
+          tl.fromTo("#s6-dist", { scale: 1 }, { scale: 1.12, duration: 0.14, yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, at(44.45));
+          tl.to("#s6-km", { opacity: 0, x: -70, duration: 0.45, ease: "power3.in" }, at(44.85));
+          // stamps
+          tl.fromTo("#s6-quiet", { opacity: 0, scale: 1.8, rotation: -14 }, { opacity: 1, scale: 1, rotation: -5, duration: 0.42, ease: "back.out(1.6)" }, at(47.55));
+          tl.fromTo("#s6-discreet", { opacity: 0, scale: 1.8, rotation: 12 }, { opacity: 1, scale: 1, rotation: 3, duration: 0.42, ease: "back.out(1.6)" }, at(49.15));
+          tl.to(["#s6-quiet", "#s6-discreet"], { opacity: 0, y: 40, duration: 0.4, ease: "power3.in", stagger: 0.08 }, at(50.55));
+          // delivered
+          tl.fromTo("#s6-done", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.55, ease: "back.out(1.7)" }, at(50.8));
+          tl.fromTo("#s6-tick", { scale: 0 }, { scale: 1, duration: 0.5, ease: "back.out(2.5)" }, at(50.95));
+          tl.fromTo("#s6-tick path", { strokeDasharray: 60, strokeDashoffset: 60 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, at(51.15));
+          const ck = document.getElementById("s6-clock");
+          const k = { v: 0 };
+          tl.fromTo(k, { v: 0 }, { v: 1, duration: 0.01, onUpdate: () => (ck.textContent = k.v >= 1 ? "07:00 · réveil" : "06:59") }, at(52.45));
+          tl.to("#s6-done", { opacity: 0, y: 30, duration: 0.4, ease: "power3.in" }, at(53.25));
+          window.__timelines["s6-lastmile"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

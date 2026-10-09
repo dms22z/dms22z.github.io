@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #s1-col {
+          position: absolute;
+          left: 140px;
+          top: 170px;
+          width: 900px;
+          display: flex;
+          flex-direction: column;
+          gap: 26px;
+        }
+        .s1-row {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .s1-big {
+          font-size: 124px;
+        }
+        #s1-count {
+          font-size: 104px;
+          white-space: nowrap;
+        }
+        .s1-label {
+          font-size: 26px;
+          color: #c9d3f2;
+        }
+        #s1-zero {
+          display: inline-block;
+          color: #ff6b6e;
+          transform-origin: 50% 60%;
+        }
+      </style>
+      <div id="root" class="ov" data-composition-id="s1-hook" data-width="1920" data-height="1080" data-duration="7.4">
+        <div id="s1-col">
+          <div class="ov-kicker" id="s1-kicker"><span class="rule"></span><span>Père Noël · rapport d'activité</span></div>
+          <div class="s1-row" id="s1-r1">
+            <div class="ov-display s1-big"><span class="ov-mask"><span id="s1-night">1 nuit.</span></span></div>
+          </div>
+          <span class="ov-line" id="s1-l1" style="width: 620px"></span>
+          <div class="s1-row" id="s1-r2">
+            <div class="ov-mono s1-label" id="s1-lab2">Cadeaux à livrer</div>
+            <div class="ov-display s1-big ov-gold ov-num" id="s1-count">0</div>
+          </div>
+          <span class="ov-line" id="s1-l2" style="width: 620px"></span>
+          <div class="s1-row" id="s1-r3">
+            <div class="ov-display s1-big"><span class="ov-mask"><span id="s1-late"><span id="s1-zero">0</span> minute</span></span></div>
+            <div class="ov-mono s1-label" id="s1-lab3">de retard. jamais.</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          const fmt = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+          tl.fromTo("#s1-kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.25);
+          tl.fromTo("#s1-kicker .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, 0.3);
+          tl.fromTo("#s1-night", { yPercent: 110 }, { yPercent: 0, duration: 0.7, ease: "power4.out" }, 0.75);
+          tl.fromTo("#s1-l1", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.inOut" }, 1.7);
+          tl.fromTo("#s1-lab2", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 2.1);
+          tl.fromTo("#s1-count", { opacity: 0, scale: 0.86, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: 1.4, ease: "expo.out" }, 2.15);
+          const c = { v: 0 };
+          const el = document.getElementById("s1-count");
+          tl.fromTo(c, { v: 0 }, { v: 2000000000, duration: 1.35, ease: "expo.out", onUpdate: () => (el.textContent = fmt(c.v)) }, 2.2);
+          tl.fromTo("#s1-l2", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.inOut" }, 3.7);
+          tl.fromTo("#s1-late", { yPercent: 110 }, { yPercent: 0, duration: 0.7, ease: "power4.out" }, 4.15);
+          tl.fromTo("#s1-lab3", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 4.6);
+          tl.fromTo("#s1-zero", { scale: 1 }, { scale: 1.45, duration: 0.12, ease: "power2.out" }, 5.13);
+          tl.to("#s1-zero", { scale: 1, duration: 0.6, ease: "elastic.out(1.1, 0.4)" }, 5.25);
+          // exit as the camera dives to the pole
+          tl.to(["#s1-kicker", "#s1-r1", "#s1-l1", "#s1-r2", "#s1-l2", "#s1-r3"], { opacity: 0, x: -80, duration: 0.5, ease: "power3.in", stagger: 0.05 }, 6.35);
+          window.__timelines["s1-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

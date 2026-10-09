@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #s7-scrim {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(70% 95% at 12% 42%, rgba(9, 14, 40, 0.82) 0%, rgba(9, 14, 40, 0.55) 45%, rgba(9, 14, 40, 0) 75%);
+        }
+        #s7-lock {
+          position: absolute;
+          left: 130px;
+          top: 150px;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+        #s7-mark {
+          width: 132px;
+          height: 150px;
+          overflow: visible;
+        }
+        #s7-word {
+          font-size: 150px;
+          white-space: nowrap;
+        }
+        #s7-word .ov-ch {
+          transform-origin: 50% 100%;
+        }
+        #s7-tag {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 900;
+          font-size: 66px;
+          line-height: 1.05;
+          color: #fbf3e4;
+          text-shadow: 0 6px 30px rgba(4, 8, 26, 0.5);
+        }
+        #s7-tag .w {
+          display: inline-block;
+        }
+        #s7-since {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+        }
+        #s7-since .rule {
+          width: 90px;
+        }
+        #s7-sign {
+          left: 130px;
+          bottom: 92px;
+          padding: 24px 38px;
+          display: flex;
+          gap: 16px;
+          font-size: 46px;
+          font-weight: 900;
+        }
+        #s7-sign .w {
+          display: inline-block;
+        }
+      </style>
+      <div id="root" class="ov" data-composition-id="s7-signature" data-width="1920" data-height="1080" data-duration="10.4">
+        <div id="s7-scrim" data-layout-allow-occlusion></div>
+        <div id="s7-lock">
+          <svg id="s7-mark" viewBox="0 0 132 150">
+            <g id="s7-cube">
+              <polygon points="66,12 124,45 66,78 8,45" fill="#e2414f" />
+              <polygon points="8,45 66,78 66,144 8,111" fill="#c8283a" />
+              <polygon points="66,78 124,45 124,111 66,144" fill="#8f1a2a" />
+              <polyline points="37,28.5 95,61.5 95,127.5" fill="none" stroke="#f3b23e" stroke-width="10" stroke-linejoin="round" />
+              <polyline points="95,28.5 37,61.5 37,127.5" fill="none" stroke="#f3b23e" stroke-width="10" stroke-linejoin="round" />
+            </g>
+            <g id="s7-bow">
+              <ellipse cx="50" cy="20" rx="16" ry="10" fill="none" stroke="#f3b23e" stroke-width="8" transform="rotate(-20 50 20)" />
+              <ellipse cx="82" cy="20" rx="16" ry="10" fill="none" stroke="#f3b23e" stroke-width="8" transform="rotate(20 82 20)" />
+            </g>
+          </svg>
+          <div class="ov-display" id="s7-word"></div>
+          <div class="ov-kicker" id="s7-kick"><span class="rule"></span><span>Logistique · Pôle Nord</span></div>
+          <div id="s7-tag"></div>
+          <div class="ov-kicker" id="s7-since"><span class="rule"></span><span>Depuis toujours.</span></div>
+        </div>
+        <div class="ov-plate" id="s7-sign">
+          <span class="w ov-gold">Soyez</span><span class="w ov-gold">sages.</span><span class="w">On</span><span class="w">s'occupe</span><span class="w">du</span><span class="w">reste.</span>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const S = 53.6;
+          const at = (g) => g - S;
+          const word = document.getElementById("s7-word");
+          word.innerHTML = "Père Noël".split("").map((c) => (c === " " ? "<span class='ov-ch'>&nbsp;</span>" : `<span class='ov-ch'>${c}</span>`)).join("");
+          const tag = document.getElementById("s7-tag");
+          tag.innerHTML = "La magie, livrée à temps.".split(" ").map((w) => `<span class='w'>${w}</span>`).join(" ");
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#s7-scrim", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out" }, at(53.6));
+          tl.fromTo("#s7-cube", { scale: 0, rotation: -25, transformOrigin: "50% 60%" }, { scale: 1, rotation: 0, duration: 0.7, ease: "back.out(2.2)" }, at(53.85));
+          tl.fromTo("#s7-bow", { scale: 0, transformOrigin: "50% 100%" }, { scale: 1, duration: 0.5, ease: "back.out(3)" }, at(54.25));
+          tl.fromTo("#s7-word .ov-ch", { yPercent: -120, opacity: 0, rotation: -8 }, { yPercent: 0, opacity: 1, rotation: 0, duration: 0.6, ease: "bounce.out", stagger: 0.045 }, at(54.0));
+          tl.fromTo("#s7-kick", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.5 }, at(54.7));
+          tl.fromTo("#s7-kick .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, at(54.75));
+          tl.fromTo("#s7-tag .w", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.12 }, at(55.6));
+          tl.fromTo("#s7-since", { opacity: 0 }, { opacity: 1, duration: 0.4 }, at(57.6));
+          tl.fromTo("#s7-since .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, at(57.6));
+          tl.fromTo("#s7-sign", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, at(59.45));
+          tl.fromTo("#s7-sign .w", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", stagger: 0.17 }, at(59.6));
+          tl.fromTo("#s7-cube", { y: 0 }, { y: -6, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 3 }, at(56.0));
+          window.__timelines["s7-signature"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #s2-top {
+          position: absolute;
+          left: 120px;
+          top: 96px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+        #s2-title {
+          font-size: 124px;
+        }
+        #s2-activity {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          margin-top: 10px;
+          padding: 14px 22px;
+          background: #0d1638;
+          border-radius: 12px;
+          width: fit-content;
+        }
+        #s2-act-label {
+          font-size: 24px;
+          color: #c9d3f2;
+        }
+        #s2-old {
+          position: relative;
+          font-weight: 700;
+          font-size: 34px;
+          color: #fbf3e4;
+        }
+        #s2-strike {
+          position: absolute;
+          left: -6px;
+          right: -6px;
+          top: 52%;
+          height: 5px;
+          background: #ff6b6e;
+          transform-origin: 0 50%;
+        }
+        #s2-new {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 34px;
+          text-transform: uppercase;
+          color: #f3b23e;
+        }
+        #s2-statement {
+          right: 110px;
+          bottom: 96px;
+          padding: 34px 44px 38px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 4px;
+        }
+        #s2-statement .ov-display {
+          font-size: 56px;
+          text-align: right;
+          text-shadow: none;
+        }
+      </style>
+      <div id="root" class="ov" data-composition-id="s2-hq" data-width="1920" data-height="1080" data-duration="7.6">
+        <div id="s2-top">
+          <div class="ov-kicker" id="s2-kicker"><span class="rule"></span><span>Siège social · 90°00′ N</span></div>
+          <div class="ov-display" id="s2-title"><span class="ov-mask"><span id="s2-title-in">Pôle Nord</span></span></div>
+          <div id="s2-activity">
+            <span class="ov-mono" id="s2-act-label">Activité :</span>
+            <span id="s2-old">Fabricant de jouets<span id="s2-strike"></span></span>
+            <span id="s2-new">Logistique</span>
+          </div>
+        </div>
+        <div class="ov-plate" id="s2-statement">
+          <div class="ov-kicker" id="s2-k2"><span>N°1 mondial</span><span class="rule"></span></div>
+          <div class="ov-display"><span class="ov-mask"><span class="s2-line">La plus grande</span></span></div>
+          <div class="ov-display ov-gold"><span class="ov-mask"><span class="s2-line">opération logistique</span></span></div>
+          <div class="ov-display"><span class="ov-mask"><span class="s2-line">de la planète.</span></span></div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const S = 7.4;
+          const at = (g) => g - S;
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo("#s2-kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, at(7.85));
+          tl.fromTo("#s2-kicker .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.6 }, at(7.9));
+          tl.fromTo("#s2-title-in", { yPercent: 115 }, { yPercent: 0, duration: 0.85, ease: "power4.out" }, at(8.0));
+          tl.fromTo("#s2-activity", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at(8.7));
+          tl.fromTo("#s2-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, at(9.55));
+          tl.fromTo("#s2-old", { opacity: 1 }, { opacity: 0.45, duration: 0.3 }, at(9.9));
+          tl.fromTo("#s2-new", { opacity: 0, scale: 0.6, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2.4)" }, at(10.6));
+          tl.fromTo("#s2-statement", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, at(10.55));
+          tl.fromTo("#s2-k2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, at(10.7));
+          tl.fromTo("#s2-k2 .rule", { scaleX: 0, transformOrigin: "100% 50%" }, { scaleX: 1, duration: 0.5 }, at(10.75));
+          tl.fromTo(".s2-line", { yPercent: 115 }, { yPercent: 0, duration: 0.7, ease: "power4.out", stagger: 0.32 }, at(10.75));
+          tl.to(["#s2-top", "#s2-statement"], { opacity: 0, y: -24, duration: 0.45, ease: "power3.in", stagger: 0.08 }, at(14.35));
+          window.__timelines["s2-hq"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

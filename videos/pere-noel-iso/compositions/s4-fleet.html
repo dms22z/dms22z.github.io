@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #s4-card {
+          left: 96px;
+          top: 150px;
+          width: 640px;
+          padding: 32px 40px 26px;
+        }
+        #s4-title {
+          margin: 10px 0 18px;
+          font-size: 62px;
+          text-shadow: none;
+        }
+        .s4-row {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 112px;
+          border-top: 3px solid rgba(243, 178, 62, 0.35);
+        }
+        .s4-label {
+          font-size: 24px;
+          color: #c9d3f2;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .s4-sub {
+          font-size: 17px;
+          color: #f3b23e;
+          letter-spacing: 0.1em;
+        }
+        .s4-val {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 72px;
+          color: #fbf3e4;
+        }
+        #s4-cap {
+          font-size: 40px;
+          color: #f3b23e;
+        }
+        #s4-inf-wrap {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          transform: translateY(-50%);
+        }
+        #s4-inf {
+          width: 150px;
+          height: 76px;
+          overflow: visible;
+        }
+        #s4-inf path {
+          fill: none;
+          stroke: #f3b23e;
+          stroke-width: 15;
+          stroke-linecap: round;
+        }
+        #s4-unl {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 30px;
+          color: #f3b23e;
+          text-transform: uppercase;
+        }
+      </style>
+      <div id="root" class="ov" data-composition-id="s4-fleet" data-width="1920" data-height="1080" data-duration="9.1">
+        <div class="ov-plate" id="s4-card">
+          <div class="ov-kicker" id="s4-kicker"><span class="rule"></span><span>Fiche technique</span></div>
+          <div class="ov-display" id="s4-title"><span class="ov-mask"><span id="s4-title-in">Flotte T-1</span></span></div>
+          <div class="s4-row" id="s4-r1">
+            <span class="ov-mono s4-label">Traîneau</span><span class="s4-val ov-num" id="s4-v1">×1</span>
+          </div>
+          <div class="s4-row" id="s4-r2">
+            <span class="ov-mono s4-label">Rennes<span class="s4-sub">dont 1 à nez rouge</span></span><span class="s4-val ov-num" id="s4-v2">×0</span>
+          </div>
+          <div class="s4-row" id="s4-r3">
+            <span class="ov-mono s4-label">Hotte · capacité</span>
+            <span class="s4-val ov-num" id="s4-cap">0</span>
+            <div id="s4-inf-wrap">
+              <svg id="s4-inf" viewBox="-80 -40 160 80"><path d="M0 0 C 18 -34, 64 -34, 64 0 C 64 34, 18 34, 0 0 C -18 -34, -64 -34, -64 0 C -64 34, -18 34, 0 0 Z" /></svg>
+              <span id="s4-unl">Illimitée</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const S = 24.3;
+          const at = (g) => g - S;
+          const tl = gsap.timeline({ paused: true });
+          const fmt = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+          tl.fromTo("#s4-card", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.65, ease: "power3.out" }, at(25.85));
+          tl.fromTo("#s4-kicker .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, at(25.95));
+          tl.fromTo("#s4-title-in", { yPercent: 115 }, { yPercent: 0, duration: 0.7, ease: "power4.out" }, at(26.0));
+          tl.fromTo(".s4-row", { opacity: 0.18 }, { opacity: 0.18, duration: 0.01 }, at(24.6));
+          tl.to("#s4-r1", { opacity: 1, duration: 0.25 }, at(26.55));
+          tl.fromTo("#s4-v1", { scale: 0.4, transformOrigin: "100% 50%" }, { scale: 1, duration: 0.55, ease: "back.out(2.6)" }, at(26.6));
+          tl.to("#s4-r2", { opacity: 1, duration: 0.25 }, at(27.85));
+          const d = { v: 0 };
+          const v2 = document.getElementById("s4-v2");
+          tl.fromTo(d, { v: 0 }, { v: 9, duration: 1.0, ease: "none", onUpdate: () => (v2.textContent = "×" + Math.min(9, Math.floor(d.v + 0.999))) }, at(27.9));
+          tl.fromTo("#s4-v2", { scale: 1 }, { scale: 1.18, duration: 0.12, yoyo: true, repeat: 1, transformOrigin: "100% 50%" }, at(28.9));
+          tl.to("#s4-r3", { opacity: 1, duration: 0.25 }, at(29.35));
+          const c = { v: 0 };
+          const cap = document.getElementById("s4-cap");
+          tl.fromTo(c, { v: 0 }, { v: 9, duration: 2.05, ease: "power1.in", onUpdate: () => (cap.textContent = fmt(Math.pow(10, c.v) - 1)) }, at(29.45));
+          tl.to("#s4-cap", { opacity: 0, scale: 0.6, duration: 0.12, transformOrigin: "100% 50%" }, at(31.45));
+          tl.fromTo("#s4-inf-wrap", { opacity: 0, scale: 2.6, rotation: -12 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.2)" }, at(31.52));
+          tl.fromTo("#s4-inf path", { strokeDasharray: 420, strokeDashoffset: 420 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, at(31.52));
+          tl.fromTo("#s4-card", { x: 0 }, { x: -10, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, at(31.55));
+          tl.to("#s4-card", { opacity: 0, x: -90, duration: 0.5, ease: "power3.in" }, at(32.75));
+          window.__timelines["s4-fleet"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

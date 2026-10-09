@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+        }
+        #s5-head {
+          position: absolute;
+          left: 110px;
+          top: 92px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+        #s5-head .ov-display {
+          font-size: 92px;
+        }
+        #s5-flake {
+          display: inline-block;
+          width: 84px;
+          height: 84px;
+          margin-left: 18px;
+          vertical-align: -6px;
+        }
+        #s5-flake path {
+          stroke: #f3b23e;
+          stroke-width: 7;
+          stroke-linecap: round;
+          fill: none;
+        }
+        #s5-hud {
+          left: 96px;
+          right: 96px;
+          bottom: 72px;
+          height: 150px;
+          display: grid;
+          grid-template-columns: 420px 1fr 330px;
+          align-items: center;
+          gap: 46px;
+          padding: 0 44px;
+        }
+        .s5-cell {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .s5-lab {
+          font-size: 20px;
+          color: #c9d3f2;
+        }
+        #s5-zone {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 58px;
+          line-height: 1;
+          color: #fbf3e4;
+        }
+        #s5-city {
+          font-size: 22px;
+          color: #f3b23e;
+        }
+        #s5-track {
+          position: relative;
+          height: 14px;
+          border-radius: 7px;
+          background: rgba(201, 211, 242, 0.18);
+          overflow: hidden;
+        }
+        #s5-fill {
+          position: absolute;
+          inset: 0;
+          background: #f3b23e;
+          border-radius: 7px;
+          transform-origin: 0 50%;
+        }
+        #s5-pct-row {
+          display: flex;
+          justify-content: space-between;
+        }
+        #s5-pct {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 30px;
+          color: #fbf3e4;
+        }
+        #s5-time {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 64px;
+          line-height: 1;
+          color: #f3b23e;
+        }
+      </style>
+      <div id="root" class="ov" data-composition-id="s5-route" data-width="1920" data-height="1080" data-duration="8.6">
+        <div id="s5-head">
+          <div class="ov-kicker" id="s5-kicker"><span class="rule"></span><span>Tournée du 24 décembre</span></div>
+          <div class="ov-display"><span class="ov-mask"><span class="s5-line">Calculée</span></span></div>
+          <div class="ov-display ov-gold"><span class="ov-mask"><span class="s5-line">au flocon près.<svg id="s5-flake" viewBox="-50 -50 100 100"><path d="M0 -44 V44 M-38 -22 L38 22 M-38 22 L38 -22 M0 -30 L-10 -40 M0 -30 L10 -40 M0 30 L-10 40 M0 30 L10 40" /></svg></span></span></div>
+        </div>
+        <div class="ov-plate" id="s5-hud">
+          <div class="s5-cell">
+            <span class="ov-mono s5-lab">Fuseau en cours</span>
+            <span id="s5-zone">UTC+12</span>
+            <span class="ov-mono" id="s5-city">AUCKLAND</span>
+          </div>
+          <div class="s5-cell">
+            <div id="s5-pct-row"><span class="ov-mono s5-lab">Tournée mondiale</span><span id="s5-pct">0 %</span></div>
+            <div id="s5-track"><div id="s5-fill"></div></div>
+          </div>
+          <div class="s5-cell">
+            <span class="ov-mono s5-lab">Heure locale</span>
+            <span id="s5-time">00:00</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const S = 33.4;
+          const at = (g) => g - S;
+          const tl = gsap.timeline({ paused: true });
+          const ZONES = [
+            ["UTC+12", "AUCKLAND"], ["UTC+11", "NOUMÉA"], ["UTC+10", "SYDNEY"], ["UTC+9", "TOKYO"], ["UTC+8", "PÉKIN"],
+            ["UTC+7", "BANGKOK"], ["UTC+6", "DACCA"], ["UTC+5", "KARACHI"], ["UTC+4", "DUBAÏ"], ["UTC+3", "MOSCOU"],
+            ["UTC+2", "LE CAIRE"], ["UTC+1", "PARIS"], ["UTC+0", "LONDRES"], ["UTC−1", "AÇORES"], ["UTC−2", "GÉORGIE DU SUD"],
+            ["UTC−3", "RIO"], ["UTC−4", "SANTIAGO"], ["UTC−5", "NEW YORK"], ["UTC−6", "MEXICO"], ["UTC−7", "DENVER"],
+            ["UTC−8", "LOS ANGELES"], ["UTC−9", "ANCHORAGE"], ["UTC−10", "HONOLULU"], ["UTC−11", "PAGO PAGO"],
+          ];
+          // same motion law as world/route.js sleighX
+          const clamp = (x) => Math.min(1, Math.max(0, x));
+          const sm = (x) => x * x * (3 - 2 * x);
+          const X0 = -60;
+          const sleighX = (g) => {
+            const k = clamp((g - 33.3) / (42.1 - 33.3));
+            const u = 0.6 * k + 0.4 * sm(k);
+            return X0 - 6 + (-X0 + 4 - (X0 - 6)) * u;
+          };
+          const zoneEl = document.getElementById("s5-zone");
+          const cityEl = document.getElementById("s5-city");
+          const pctEl = document.getElementById("s5-pct");
+          const fill = document.getElementById("s5-fill");
+          const p = { g: S };
+          tl.fromTo(
+            p,
+            { g: S },
+            {
+              g: 42.0,
+              duration: 42.0 - S,
+              ease: "none",
+              onUpdate: () => {
+                const x = sleighX(p.g);
+                const i = Math.max(0, Math.min(23, Math.floor((x - X0) / 5)));
+                zoneEl.textContent = ZONES[i][0];
+                cityEl.textContent = ZONES[i][1];
+                const pct = clamp((x - X0) / 120);
+                pctEl.textContent = Math.round(pct * 100) + " %";
+                fill.style.transform = "scaleX(" + pct.toFixed(4) + ")";
+              },
+            },
+            0,
+          );
+          tl.fromTo("#s5-hud", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, at(33.65));
+          tl.fromTo("#s5-kicker", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5 }, at(33.9));
+          tl.fromTo("#s5-kicker .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, at(33.95));
+          tl.fromTo(".s5-line", { yPercent: 115 }, { yPercent: 0, duration: 0.7, ease: "power4.out", stagger: 0.35 }, at(34.0));
+          tl.fromTo("#s5-flake", { rotation: -90, scale: 0 }, { rotation: 0, scale: 1, duration: 0.8, ease: "back.out(2)" }, at(34.75));
+          tl.to("#s5-flake", { rotation: 180, duration: 6.5, ease: "none" }, at(35.55));
+          tl.to("#s5-head", { opacity: 0, y: -30, duration: 0.45, ease: "power3.in" }, at(36.7));
+          tl.fromTo("#s5-zone", { scale: 1 }, { scale: 1.1, duration: 0.15, yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, at(37.0));
+          tl.to("#s5-hud", { opacity: 0, y: 40, duration: 0.35, ease: "power3.in" }, at(41.55));
+          window.__timelines["s5-route"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

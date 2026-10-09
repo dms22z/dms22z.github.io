@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Père Noël — La magie, livrée à temps</title>
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Archivo Black";
+        src: url("assets/fonts/archivo-black-latin-400-normal.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url("assets/fonts/montserrat-latin-400-normal.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url("assets/fonts/montserrat-latin-700-normal.woff2") format("woff2");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Montserrat";
+        src: url("assets/fonts/montserrat-latin-900-normal.woff2") format("woff2");
+        font-weight: 900;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("assets/fonts/space-mono-latin-400-normal.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("assets/fonts/space-mono-latin-700-normal.woff2") format("woff2");
+        font-weight: 700;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0b1436;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      /* ── shared overlay typography ─────────────────────────────── */
+      .ov {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        color: #fbf3e4;
+        font-family: "Montserrat", sans-serif;
+      }
+      .ov-kicker {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #f3b23e;
+      }
+      .ov-kicker .rule {
+        display: block;
+        width: 56px;
+        height: 3px;
+        background: #f3b23e;
+        transform-origin: 0 50%;
+      }
+      .ov-display {
+        font-family: "Archivo Black", sans-serif;
+        text-transform: uppercase;
+        line-height: 0.95;
+        letter-spacing: 0.005em;
+        color: #fbf3e4;
+        text-shadow: 0 6px 36px rgba(4, 8, 26, 0.55);
+      }
+      .ov-mono {
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .ov-plate {
+        position: absolute;
+        background: #0d1638;
+        border-radius: 20px;
+        box-shadow: 0 24px 70px rgba(3, 6, 22, 0.45);
+      }
+      .ov-gold {
+        color: #f3b23e;
+      }
+      .ov-red {
+        color: #ff6b6e;
+      }
+      .ov-num {
+        font-variant-numeric: tabular-nums;
+      }
+      .ov-line {
+        display: block;
+        height: 3px;
+        background: rgba(243, 178, 62, 0.85);
+        transform-origin: 0 50%;
+      }
+      .ov-ch {
+        display: inline-block;
+      }
+      .ov-mask {
+        display: block;
+        overflow: hidden;
+        padding-bottom: 0.08em;
+      }
+      .ov-mask > span {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="64" data-width="1920" data-height="1080">
+      <div id="world" data-composition-id="world" data-composition-src="compositions/world.html" data-start="0" data-duration="64" data-track-index="0" data-width="1920" data-height="1080"></div>
+
+      <div id="s1" data-composition-id="s1-hook" data-composition-src="compositions/s1-hook.html" data-start="0" data-duration="7.4" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s2" data-composition-id="s2-hq" data-composition-src="compositions/s2-hq.html" data-start="7.4" data-duration="7.6" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s3" data-composition-id="s3-production" data-composition-src="compositions/s3-production.html" data-start="15" data-duration="9.3" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s4" data-composition-id="s4-fleet" data-composition-src="compositions/s4-fleet.html" data-start="24.3" data-duration="9.1" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s5" data-composition-id="s5-route" data-composition-src="compositions/s5-route.html" data-start="33.4" data-duration="8.6" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s6" data-composition-id="s6-lastmile" data-composition-src="compositions/s6-lastmile.html" data-start="42" data-duration="11.6" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s7" data-composition-id="s7-signature" data-composition-src="compositions/s7-signature.html" data-start="53.6" data-duration="10.4" data-track-index="1" data-width="1920" data-height="1080"></div>
+
+      <audio id="vo" src="assets/voiceover.wav" data-start="0" data-duration="64" data-track-index="10" data-volume="1"></audio>
+      <audio id="music" src="assets/music.wav" data-start="0" data-duration="64" data-track-index="11" data-volume="0.55"></audio>
+      <audio id="sfx" src="assets/sfx.wav" data-start="0" data-duration="64" data-track-index="12" data-volume="0.8"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

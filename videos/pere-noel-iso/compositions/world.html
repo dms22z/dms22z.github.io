@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        #world-sky,
+        #world-stars,
+        #world-aurora,
+        #world-gl,
+        #world-pins,
+        #world-flash,
+        #world-vignette,
+        #world-grain {
+          position: absolute;
+          inset: 0;
+          width: 1920px;
+          height: 1080px;
+        }
+        #world-sky {
+          background: #0b1436;
+        }
+        #world-stars circle {
+          fill: #fff6e6;
+        }
+        #world-aurora {
+          opacity: 0;
+          background:
+            radial-gradient(42% 22% at 28% 18%, rgba(95, 224, 176, 0.42), transparent 70%),
+            radial-gradient(38% 18% at 62% 12%, rgba(120, 200, 255, 0.32), transparent 72%),
+            radial-gradient(30% 16% at 82% 24%, rgba(172, 128, 255, 0.28), transparent 72%);
+          filter: blur(18px);
+        }
+        #world-gl {
+          display: block;
+        }
+        #world-flash {
+          background: #fffaf0;
+          opacity: 0;
+        }
+        #world-vignette {
+          background: radial-gradient(120% 110% at 50% 50%, transparent 58%, rgba(4, 8, 26, 0.55) 100%);
+        }
+        #world-grain {
+          opacity: 0.07;
+          mix-blend-mode: overlay;
+        }
+        .wpin {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 0;
+          height: 0;
+          opacity: 0;
+        }
+        .wpin-dot {
+          position: absolute;
+          left: -9px;
+          top: -9px;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #f3b23e;
+          box-shadow: 0 0 0 5px rgba(243, 178, 62, 0.3);
+        }
+        .wpin-line {
+          position: absolute;
+          left: -1.5px;
+          bottom: 0;
+          width: 3px;
+          background: #f3b23e;
+          transform-origin: 50% 100%;
+        }
+        .wpin-card {
+          position: absolute;
+          left: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          padding: 12px 20px 13px;
+          background: #0d1638;
+          border: 3px solid #f3b23e;
+          border-radius: 12px;
+          white-space: nowrap;
+          transform-origin: 50% 100%;
+        }
+        .wpin-k {
+          font-family: "Space Mono", monospace;
+          font-weight: 700;
+          font-size: 20px;
+          letter-spacing: 0.18em;
+          color: #f3b23e;
+        }
+        .wpin-l {
+          font-family: "Archivo Black", sans-serif;
+          font-size: 30px;
+          letter-spacing: 0.02em;
+          color: #fbf3e4;
+        }
+        .wpin.big .wpin-l {
+          font-size: 40px;
+        }
+        .wpin.track .wpin-card {
+          background: #f3b23e;
+          border-color: #fbf3e4;
+        }
+        .wpin.track .wpin-k {
+          color: #5a1420;
+        }
+        .wpin.track .wpin-l {
+          color: #0d1638;
+          font-size: 26px;
+        }
+        .wpin.zzz .wpin-dot,
+        .wpin.zzz .wpin-line {
+          display: none;
+        }
+        .wpin.zzz .wpin-card {
+          background: transparent;
+          border: none;
+        }
+        .wpin.zzz .wpin-l {
+          font-size: 54px;
+          color: #fbf3e4;
+          text-shadow: 0 4px 18px rgba(8, 12, 32, 0.8);
+        }
+        .wpin.zone .wpin-dot,
+        .wpin.zone .wpin-line {
+          display: none;
+        }
+        .wpin.zone .wpin-card {
+          bottom: -60px !important;
+          padding: 6px 12px;
+          background: rgba(9, 14, 38, 0.82);
+          border: 2px solid rgba(243, 178, 62, 0.7);
+          border-radius: 8px;
+        }
+        .wpin.zone .wpin-l {
+          font-family: "Space Mono", monospace;
+          font-weight: 700;
+          font-size: 24px;
+          color: #fbf3e4;
+        }
+        #world-chapter {
+          position: absolute;
+          right: 72px;
+          top: 60px;
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          padding: 12px 20px;
+          background: rgba(9, 14, 38, 0.78);
+          border-radius: 10px;
+          font-family: "Space Mono", monospace;
+          font-weight: 700;
+          font-size: 22px;
+          letter-spacing: 0.2em;
+          color: #fbf3e4;
+          opacity: 0;
+        }
+        #world-chapter-num {
+          color: #f3b23e;
+        }
+        #world-chapter-bar {
+          width: 44px;
+          height: 3px;
+          background: #f3b23e;
+          transform-origin: 0 50%;
+        }
+      </style>
+      <div id="root" data-composition-id="world" data-width="1920" data-height="1080" data-duration="64">
+        <div id="world-sky"></div>
+        <svg id="world-stars" viewBox="0 0 1920 1080"></svg>
+        <div id="world-aurora"></div>
+        <canvas id="world-gl" width="1920" height="1080" data-layout-allow-overflow></canvas>
+        <div id="world-pins" data-layout-allow-overflow></div>
+        <div id="world-vignette"></div>
+        <svg id="world-grain" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <filter id="world-noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" /></filter>
+          <rect width="1920" height="1080" filter="url(#world-noise)" />
+        </svg>
+        <div id="world-chapter">
+          <span id="world-chapter-num">01</span><span id="world-chapter-bar"></span><span id="world-chapter-name">LA PROMESSE</span>
+        </div>
+        <div id="world-flash"></div>
+      </div>
+      <script type="module">
+        import "./world/main.js";
+      </script>
+      <script>
+        (function () {
+          const tl = gsap.timeline({ paused: true });
+          // chapter tag: the gold bar redraws at every chapter change
+          [0, 7.4, 15.0, 24.3, 33.4, 42.0, 53.6].forEach((t0) => {
+            tl.fromTo("#world-chapter-bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, t0 + 0.35);
+          });
+          tl.fromTo("#world-aurora", { filter: "blur(18px)" }, { filter: "blur(26px)", duration: 13, ease: "sine.inOut", yoyo: true, repeat: 1 }, 7.4);
+          window.__timelines["world"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
