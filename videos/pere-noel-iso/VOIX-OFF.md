@@ -3,9 +3,8 @@
 La vidéo utilise désormais la voix enregistrée par l'utilisateur (`assets/vo-user/projet-video-1.m4a`, Google AI Studio),
 découpée phrase par phrase et placée aux départs ci-dessous. L'ancienne voix provisoire (Kokoro) est conservée dans
 `assets/voiceover-provisoire-kokoro.wav`.
-Pour la remplacer par ta voix Google, enregistre chaque réplique séparément et place-la au temps indiqué,
-ou enregistre d'une traite en respectant les départs. Puis remplace `assets/voiceover.wav`
-(même durée : 64 s) et relance `npm run render`.
+Pour changer de voix : régénère une prise complète (pauses d'~1 s entre les phrases), redécoupe-la sur ces départs
+dans `assets/voiceover.wav` (64 s) et relance `npm run render`.
 
 **Direction :** voix grave et chaleureuse, ton de bande-annonce haut de gamme, sourire dans la voix,
 débit posé ; marquer les silences après les phrases courtes, humour pince-sans-rire sur « illimitée » et « la cheminée ».
