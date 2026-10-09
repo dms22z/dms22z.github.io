@@ -1,3 +1,5 @@
 
 
 title: Café Lucien
+exclude:
+  - my-video
